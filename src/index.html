@@ -11,8 +11,75 @@
 <body>
   <div class="sidebar">
     <h2>Projects</h2>
+    <button type="button" id="new-project-button">New Project</button>
+    <ul class="project-list" id="project-list"></ul>
   </div>
   <div class="project-view"></div>
   <div class="todo-view"></div>
+
+  <template id="list-item-template">
+    <li>
+      <input type="checkbox">
+      <button type="button" class="list-button">
+        <div class="title"></div>
+        <div class="due-date">Due date:</div>
+      </button>
+      <button type="button" class="list-delete-button">Delete</button>
+    </li>
+  </template>
+
+  <template id="project-view-template">
+    <form action="" class="project-form" id="project-form">
+      <div>
+        <button type="button" id="project-save-button">Save changes</button>
+      </div>
+      <div class="project-fields">
+        <div><label for="project-title">Title: <input type="text" name="project-title" id="project-title"></label></div>
+        <div><label for="project-due-date">Due Date: <input type="date" name="project-due-date" id="project-due-date"></label></div>
+        <div>
+          <label for="project-priority">Priority:
+            <select name="project-priority" id="project-priority">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+        </div>
+        </label>
+        <div><label style="display: block;" for="project-description">Description:</label><textarea name="project-description" id="project-description"></textarea></div>
+        
+        <h3>Todos:</h3>
+        <ul id="todo-list"></ul>
+        <div>
+          <button type="button" id="new-todo-button">Add todo</button>
+        </div>
+      </div>
+    </form>
+  </template>
+
+  <template id="todo-view-template">
+    <form action="" class="todo-form">
+      <div class="todo-fields">
+        <label for="todo-title"><input type="text" name="todo-title" id="todo-title"></label>
+        <label for="todo-due-date">Due Date:<input type="date" name="todo-due-date" id="todo-due-date"></label>
+        <label for="todo-priority">Priority:
+          <select name="todo-priority" id="todo-priority">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </label>
+        <label for="todo-description">Description: <textarea name="todo-description" id="todo-description"></textarea></label>
+      </div>
+      <div class="buttons">
+        <button type="button" id="todo-edit-button">Edit</button>
+        <button type="button" id="todo-edit-button">Save</button>
+        <button type="button" id="todo-edit-button">Cancel</button>
+      </div>
+    </form>
+  </template>
 </body>
 </html>
