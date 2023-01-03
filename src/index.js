@@ -66,6 +66,7 @@ function renderProjectView(projectId) {
   
       renderTodoView(selectedTodoId);
       logic.updateStorage("todoSelectedTodo", selectedTodoId);
+      logic.updateStorage("todoSelectedTodoId", selectedTodoId);
     }
   
     if (e.target.matches('.list-delete-button, .list-delete-button *')) {
@@ -77,7 +78,16 @@ function renderProjectView(projectId) {
       logic.updateStorage("todoSelectedTodoId", selectedTodoId);
       logic.updateStorage("todoProjects", projects);
     }
-  })
+
+    if (e.target.matches('input')) {
+      const id = e.target.closest('li').dataset.id;
+      selectedProject.todos[logic.findIndexById(selectedProject.todos, id)].completed = 
+      selectedProject.todos[logic.findIndexById(selectedProject.todos, id)].completed === true ? false : true;
+  
+      renderPage();
+      logic.updateStorage("todoProjects", projects);
+    }
+  });
 }
 
 function saveProject() {
@@ -93,7 +103,6 @@ function saveProject() {
   renderPage();
 }
 
-// AAAAAAAAAAAAAAAAAAA
 function renderTodoView(todoId) {
   clearElement(todoView);
   selectedTodo = selectedProject.todos[logic.findIndexById(selectedProject.todos, todoId)];
@@ -124,7 +133,6 @@ function saveTodo() {
   logic.updateStorage("todoProjects", projects);
   renderPage();
 }
-// BBBBBBBBBBBBBBBBBBB
 
 function clearElement(element) {
   while (element.firstChild) {
@@ -137,8 +145,9 @@ projectListElement.addEventListener('click', e => {
     selectedProjectId = e.target.closest('li').dataset.id;
     selectedTodoId = null;
 
-    renderProjectView(selectedProjectId);
+    renderPage();
     logic.updateStorage("todoSelectedProjectId", selectedProjectId);
+    logic.updateStorage("todoSelectedTodoId", selectedTodoId);
   }
 
   if (e.target.matches('.list-delete-button, .list-delete-button *')) {
@@ -148,6 +157,15 @@ projectListElement.addEventListener('click', e => {
 
     renderPage();
     logic.updateStorage("todoSelectedProjectId", selectedProjectId);
+  }
+
+  if (e.target.matches('input')) {
+    const id = e.target.closest('li').dataset.id;
+    projects[logic.findIndexById(projects, id)].completed = 
+    projects[logic.findIndexById(projects, id)].completed === true ? false : true;
+
+    renderPage();
+    logic.updateStorage("todoProjects", projects);
   }
 })
 
