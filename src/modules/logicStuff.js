@@ -44,6 +44,12 @@ const createProject = (projectArray) => {
   updateStorage("todoProjects", projectArray);
 };
 
+const createTodo = (project, projectArray) => {
+  const todo = new TODO();
+  project.todos.push(todo);
+  updateStorage("todoProjects", projectArray);
+};
+
 const findIndexById = (array, id) => {
   return array.findIndex(object => object.id === id);
 }
@@ -57,6 +63,7 @@ export {
         updateStorage,
         loadStorage,
         createProject,
+        createTodo,
         findIndexById,
         deleteById,
 }

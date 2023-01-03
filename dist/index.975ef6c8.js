@@ -563,13 +563,20 @@ function renderProjectView(projectId) {
     clearElement(projectView);
     selectedProject = projects[_logicStuff.findIndexById(projects, projectId)];
     const projectForm = document.importNode(projectViewTemplate.content, true);
+    const todoList = projectForm.querySelector("#todo-list");
     projectForm.querySelector("#project-title").value = selectedProject.title;
     projectForm.querySelector("#project-due-date").value = selectedProject.dueDate;
     projectForm.querySelector("#project-priority").value = selectedProject.priority;
     projectForm.querySelector("#project-description").value = selectedProject.description;
+    renderList(selectedProject.todos, todoList);
     projectView.appendChild(projectForm);
     const saveButton = document.querySelector("#project-save-button");
+    const newTodoButton = document.querySelector("#new-todo-button");
     saveButton.addEventListener("click", saveProject);
+    newTodoButton.addEventListener("click", ()=>{
+        _logicStuff.createTodo(selectedProject, projects);
+        renderPage();
+    });
 }
 function saveProject() {
     const projectForm = document.querySelector("#project-form");
@@ -619,6 +626,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateStorage", ()=>updateStorage);
 parcelHelpers.export(exports, "loadStorage", ()=>loadStorage);
 parcelHelpers.export(exports, "createProject", ()=>createProject);
+parcelHelpers.export(exports, "createTodo", ()=>createTodo);
 parcelHelpers.export(exports, "findIndexById", ()=>findIndexById);
 parcelHelpers.export(exports, "deleteById", ()=>deleteById);
 var _generators = require("./generators");
@@ -655,6 +663,11 @@ class PROJECT extends TODO {
 const createProject = (projectArray)=>{
     const project = new PROJECT();
     projectArray.push(project);
+    updateStorage("todoProjects", projectArray);
+};
+const createTodo = (project, projectArray)=>{
+    const todo = new TODO();
+    project.todos.push(todo);
     updateStorage("todoProjects", projectArray);
 };
 const findIndexById = (array, id)=>{
