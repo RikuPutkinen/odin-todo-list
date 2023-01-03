@@ -47,7 +47,7 @@
             </select>
         </label></div>
         
-        <div><label style="display: block" for="project-description">Description:</label><textarea name="project-description" id="project-description"></textarea></div>
+        <div><label style="display: block" for="project-description">Description:</label><textarea name="project-description" id="project-description" rows="5" cols="40"></textarea></div>
         
         <h3>Todos:</h3>
         <ul id="todo-list"></ul>
@@ -64,18 +64,26 @@
         <button type="button" id="todo-save-button">Save changes</button>
       </div>
       <div class="todo-fields">
-        <label for="todo-title"><input type="text" name="todo-title" id="todo-title"></label>
-        <label for="todo-due-date">Due Date:<input type="date" name="todo-due-date" id="todo-due-date"></label>
-        <label for="todo-priority">Priority:
-          <select name="todo-priority" id="todo-priority">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </label>
-        <label for="todo-description">Description: <textarea name="todo-description" id="todo-description"></textarea></label>
+        <div>
+          <label for="todo-title">Title: <input type="text" name="todo-title" id="todo-title"></label>
+        </div>
+        <div>
+          <label for="todo-due-date">Due Date:<input type="date" name="todo-due-date" id="todo-due-date"></label>
+        </div>
+        <div>
+          <label for="todo-priority">Priority:
+            <select name="todo-priority" id="todo-priority">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label style="display: block" for="todo-description">Description: </label><textarea name="todo-description" id="todo-description" rows="5" cols="40"></textarea>
+        </div>
       </div>
     </form>
   </template>

@@ -1,3 +1,22 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
+body {
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
+}
+
+li {
+  gap: 8px;
+  display: flex;
+}
+
+li > .list-button {
+  text-align: start;
+}
 
 /*# sourceMappingURL=index.2cdaf7bc.css.map */

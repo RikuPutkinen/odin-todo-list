@@ -582,6 +582,7 @@ function renderProjectView(projectId) {
             selectedTodoId = e.target.closest("li").dataset.id;
             renderTodoView(selectedTodoId);
             _logicStuff.updateStorage("todoSelectedTodo", selectedTodoId);
+            _logicStuff.updateStorage("todoSelectedTodoId", selectedTodoId);
         }
         if (e.target.matches(".list-delete-button, .list-delete-button *")) {
             const toBeDeletedId = e.target.closest("li").dataset.id;
@@ -589,6 +590,12 @@ function renderProjectView(projectId) {
             _logicStuff.deleteById(selectedProject.todos, toBeDeletedId);
             renderPage();
             _logicStuff.updateStorage("todoSelectedTodoId", selectedTodoId);
+            _logicStuff.updateStorage("todoProjects", projects);
+        }
+        if (e.target.matches("input")) {
+            const id = e.target.closest("li").dataset.id;
+            selectedProject.todos[_logicStuff.findIndexById(selectedProject.todos, id)].completed = selectedProject.todos[_logicStuff.findIndexById(selectedProject.todos, id)].completed === true ? false : true;
+            renderPage();
             _logicStuff.updateStorage("todoProjects", projects);
         }
     });
@@ -603,7 +610,6 @@ function saveProject() {
     _logicStuff.updateStorage("todoProjects", projects);
     renderPage();
 }
-// AAAAAAAAAAAAAAAAAAA
 function renderTodoView(todoId) {
     clearElement(todoView);
     selectedTodo = selectedProject.todos[_logicStuff.findIndexById(selectedProject.todos, todoId)];
@@ -626,7 +632,6 @@ function saveTodo() {
     _logicStuff.updateStorage("todoProjects", projects);
     renderPage();
 }
-// BBBBBBBBBBBBBBBBBBB
 function clearElement(element) {
     while(element.firstChild)element.removeChild(element.firstChild);
 }
@@ -634,8 +639,9 @@ projectListElement.addEventListener("click", (e)=>{
     if (e.target.matches(".list-button, .list-button *")) {
         selectedProjectId = e.target.closest("li").dataset.id;
         selectedTodoId = null;
-        renderProjectView(selectedProjectId);
+        renderPage();
         _logicStuff.updateStorage("todoSelectedProjectId", selectedProjectId);
+        _logicStuff.updateStorage("todoSelectedTodoId", selectedTodoId);
     }
     if (e.target.matches(".list-delete-button, .list-delete-button *")) {
         const toBeDeletedId = e.target.closest("li").dataset.id;
@@ -643,6 +649,12 @@ projectListElement.addEventListener("click", (e)=>{
         _logicStuff.deleteById(projects, toBeDeletedId);
         renderPage();
         _logicStuff.updateStorage("todoSelectedProjectId", selectedProjectId);
+    }
+    if (e.target.matches("input")) {
+        const id = e.target.closest("li").dataset.id;
+        projects[_logicStuff.findIndexById(projects, id)].completed = projects[_logicStuff.findIndexById(projects, id)].completed === true ? false : true;
+        renderPage();
+        _logicStuff.updateStorage("todoProjects", projects);
     }
 });
 newProjectButton.addEventListener("click", ()=>{
