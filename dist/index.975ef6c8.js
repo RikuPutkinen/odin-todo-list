@@ -585,10 +585,17 @@ function clearElement(element) {
     while(element.firstChild)element.removeChild(element.firstChild);
 }
 projectListElement.addEventListener("click", (e)=>{
-    if (e.target.matches(".list-button *")) {
+    if (e.target.matches(".list-button, .list-button *")) {
         selectedProjectId = e.target.closest("li").dataset.id;
         selectedTodoId = null;
         renderProjectView(selectedProjectId);
+        _logicStuff.updateStorage("todoSelectedProjectId", selectedProjectId);
+    }
+    if (e.target.matches(".list-delete-button, .list-delete-button *")) {
+        const toBeDeletedId = e.target.closest("li").dataset.id;
+        if (toBeDeletedId === selectedProjectId) selectedProjectId = null;
+        _logicStuff.deleteById(projects, toBeDeletedId);
+        renderPage();
         _logicStuff.updateStorage("todoSelectedProjectId", selectedProjectId);
     }
 });
@@ -601,7 +608,7 @@ function renderProjectList() {
 }
 function renderPage() {
     renderProjectList();
-    if (selectedProjectId) renderProjectView(selectedProjectId);
+    selectedProjectId !== null ? renderProjectView(selectedProjectId) : clearElement(projectView);
 //if (selectedTodoId) DOMStuff.renderTodoView(selectedTodoId);
 }
 renderPage();
@@ -613,6 +620,7 @@ parcelHelpers.export(exports, "updateStorage", ()=>updateStorage);
 parcelHelpers.export(exports, "loadStorage", ()=>loadStorage);
 parcelHelpers.export(exports, "createProject", ()=>createProject);
 parcelHelpers.export(exports, "findIndexById", ()=>findIndexById);
+parcelHelpers.export(exports, "deleteById", ()=>deleteById);
 var _generators = require("./generators");
 var _dateFns = require("date-fns");
 const updateStorage = (key, item)=>localStorage.setItem(key, JSON.stringify(item));
@@ -651,6 +659,10 @@ const createProject = (projectArray)=>{
 };
 const findIndexById = (array, id)=>{
     return array.findIndex((object)=>object.id === id);
+};
+const deleteById = (array, id)=>{
+    let index = findIndexById(array, id);
+    array.splice(index, 1);
 };
 
 },{"./generators":"hqaix","date-fns":"9yHCA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hqaix":[function(require,module,exports) {

@@ -71,13 +71,23 @@ function clearElement(element) {
 }
 
 projectListElement.addEventListener('click', e => {
-  if (e.target.matches('.list-button *')) {
+  if (e.target.matches('.list-button, .list-button *')) {
     selectedProjectId = e.target.closest('li').dataset.id;
     selectedTodoId = null;
 
     renderProjectView(selectedProjectId);
     logic.updateStorage("todoSelectedProjectId", selectedProjectId);
   }
+
+  if (e.target.matches('.list-delete-button, .list-delete-button *')) {
+    const toBeDeletedId = e.target.closest('li').dataset.id;
+    if (toBeDeletedId === selectedProjectId) selectedProjectId = null;
+    logic.deleteById(projects, toBeDeletedId);
+
+    renderPage();
+    logic.updateStorage("todoSelectedProjectId", selectedProjectId);
+  }
+  
 })
 
 newProjectButton.addEventListener('click', () => {
@@ -92,7 +102,7 @@ function renderProjectList() {
 
 function renderPage() {
   renderProjectList();
-  if (selectedProjectId) renderProjectView(selectedProjectId);
+  selectedProjectId !== null ? renderProjectView(selectedProjectId) : clearElement(projectView);
   //if (selectedTodoId) DOMStuff.renderTodoView(selectedTodoId);
 };
 

@@ -48,9 +48,15 @@ const findIndexById = (array, id) => {
   return array.findIndex(object => object.id === id);
 }
 
+const deleteById = (array, id) => {
+  let index = findIndexById(array, id);
+  array.splice(index, 1);
+}
+
 export {
         updateStorage,
         loadStorage,
         createProject,
         findIndexById,
+        deleteById,
 }
