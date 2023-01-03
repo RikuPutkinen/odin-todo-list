@@ -59,7 +59,10 @@
   </template>
 
   <template id="todo-view-template">
-    <form action="" class="todo-form">
+    <form action="" class="todo-form" id="todo-form">
+      <div>
+        <button type="button" id="todo-save-button">Save changes</button>
+      </div>
       <div class="todo-fields">
         <label for="todo-title"><input type="text" name="todo-title" id="todo-title"></label>
         <label for="todo-due-date">Due Date:<input type="date" name="todo-due-date" id="todo-due-date"></label>
@@ -73,11 +76,6 @@
           </select>
         </label>
         <label for="todo-description">Description: <textarea name="todo-description" id="todo-description"></textarea></label>
-      </div>
-      <div class="buttons">
-        <button type="button" id="todo-edit-button">Edit</button>
-        <button type="button" id="todo-edit-button">Save</button>
-        <button type="button" id="todo-edit-button">Cancel</button>
       </div>
     </form>
   </template>

@@ -577,6 +577,21 @@ function renderProjectView(projectId) {
         _logicStuff.createTodo(selectedProject, projects);
         renderPage();
     });
+    todoList.addEventListener("click", (e)=>{
+        if (e.target.matches(".list-button, .list-button *")) {
+            selectedTodoId = e.target.closest("li").dataset.id;
+            renderTodoView(selectedTodoId);
+            _logicStuff.updateStorage("todoSelectedTodo", selectedTodoId);
+        }
+        if (e.target.matches(".list-delete-button, .list-delete-button *")) {
+            const toBeDeletedId = e.target.closest("li").dataset.id;
+            if (toBeDeletedId === selectedTodoId) selectedTodoId = null;
+            _logicStuff.deleteById(selectedProject.todos, toBeDeletedId);
+            renderPage();
+            _logicStuff.updateStorage("todoSelectedTodoId", selectedTodoId);
+            _logicStuff.updateStorage("todoProjects", projects);
+        }
+    });
 }
 function saveProject() {
     const projectForm = document.querySelector("#project-form");
@@ -588,6 +603,30 @@ function saveProject() {
     _logicStuff.updateStorage("todoProjects", projects);
     renderPage();
 }
+// AAAAAAAAAAAAAAAAAAA
+function renderTodoView(todoId) {
+    clearElement(todoView);
+    selectedTodo = selectedProject.todos[_logicStuff.findIndexById(selectedProject.todos, todoId)];
+    const todoForm = document.importNode(todoViewTemplate.content, true);
+    todoForm.querySelector("#todo-title").value = selectedTodo.title;
+    todoForm.querySelector("#todo-due-date").value = selectedTodo.dueDate;
+    todoForm.querySelector("#todo-priority").value = selectedTodo.priority;
+    todoForm.querySelector("#todo-description").value = selectedTodo.description;
+    todoView.appendChild(todoForm);
+    const saveButton = document.querySelector("#todo-save-button");
+    saveButton.addEventListener("click", saveTodo);
+}
+function saveTodo() {
+    const todoForm = document.querySelector("#todo-form");
+    selectedTodo.title = todoForm.querySelector("#todo-title").value;
+    selectedTodo.dueDate = todoForm.querySelector("#todo-due-date").value;
+    selectedTodo.priority = todoForm.querySelector("#todo-priority").value;
+    selectedTodo.description = todoForm.querySelector("#todo-description").value;
+    selectedProject[_logicStuff.findIndexById(selectedProject.todos, selectedTodoId)] = selectedTodo;
+    _logicStuff.updateStorage("todoProjects", projects);
+    renderPage();
+}
+// BBBBBBBBBBBBBBBBBBB
 function clearElement(element) {
     while(element.firstChild)element.removeChild(element.firstChild);
 }
@@ -616,7 +655,7 @@ function renderProjectList() {
 function renderPage() {
     renderProjectList();
     selectedProjectId !== null ? renderProjectView(selectedProjectId) : clearElement(projectView);
-//if (selectedTodoId) DOMStuff.renderTodoView(selectedTodoId);
+    selectedTodoId !== null ? renderTodoView(selectedTodoId) : clearElement(todoView);
 }
 renderPage();
 
